@@ -27,10 +27,13 @@ public class UserInfoHandler extends RequestHandler {
                                     oDesiredUser.get().getId(),
                                     oDesiredUser.get().isOnline()
                             )));
-                    return;
-                }
-            }
+                } else {
+                    exchange.setStatusCode(404);
+                    exchange.getResponseSender().send("");
 
+                }
+                return;
+            }
             exchange.setStatusCode(403);
             exchange.getResponseSender().send("");
         });

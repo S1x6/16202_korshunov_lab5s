@@ -6,6 +6,7 @@ import java.util.List;
 public class Model {
 
     private static int userId = 1;
+    private static int messageId = 1;
     private static volatile Model instance;
     private List<User> users;
     private List<Message> messages;
@@ -42,5 +43,15 @@ public class Model {
         users.remove(user);
     }
 
+    public Message addMessage(String text, int authorId) {
+        Message message = new Message(text, authorId);
+        message.setId(messageId);
+        messageId++;
+        messages.add(message);
+        return message;
+    }
 
+    public List<Message> getMessages(int offset, int count) {
+        return messages.subList(offset, offset+count < messages.size() ? offset+count : messages.size());
+    }
 }

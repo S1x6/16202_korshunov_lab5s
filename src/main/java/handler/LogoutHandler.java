@@ -17,7 +17,7 @@ public class LogoutHandler extends RequestHandler {
             Optional<User> oUser = getAuthorizedUser(exchange);
 
             if (oUser.isPresent()) {
-                Model.getInstance().getUsers().remove(oUser.get());
+                Model.getInstance().removeUser(oUser.get());
                 exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/json");
                 exchange.getResponseSender().send(gson.toJson(new ByeObject("bye!")));
                 return;

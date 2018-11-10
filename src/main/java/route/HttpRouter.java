@@ -1,9 +1,6 @@
 package route;
 
-import handler.LoginHandler;
-import handler.LogoutHandler;
-import handler.RequestHandler;
-import handler.UserListHandler;
+import handler.*;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 import io.undertow.util.Methods;
@@ -17,8 +14,19 @@ public class HttpRouter {
             handler = new LoginHandler();
         } else if (rooms[1].equals("logout") && method.equals(Methods.POST)) {
             handler = new LogoutHandler();
+        } else if (rooms[1].equals("users") && method.equals(Methods.GET) && rooms.length == 3) {
+            handler = new UserInfoHandler();
+            try {
+                handler.setId(Integer.valueOf(rooms[2]));
+            } catch (NumberFormatException ex) {
+                handler.setId(-1);
+            }
         } else if (rooms[1].equals("users") && method.equals(Methods.GET)) {
             handler = new UserListHandler();
+        } else if (rooms[1].equals("messages") && method.equals(Methods.POST)) {
+            handler = new AddMessageHandler();
+        } else if (rooms[1].equals("messages") && method.equals(Methods.GET)) {
+            handler = new GetMessagesHandler();
         }
         return handler;
     }
@@ -27,7 +35,7 @@ public class HttpRouter {
         @Override
         public void performAction(HttpServerExchange exchange) {
             exchange.setStatusCode(501);
-            exchange.getResponseSender().send("Not implemented");
+            exchange.getResponseSender().send("");
         }
     };
 }
