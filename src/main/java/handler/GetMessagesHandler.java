@@ -17,6 +17,7 @@ public class GetMessagesHandler extends RequestHandler {
             Optional<User> oUser = getAuthorizedUser(exchange);
 
             if (oUser.isPresent()) {
+                oUser.get().updateTimeActive();
                 int offset, count;
                 try {
                     Deque<String> stringDeque = exchange.getQueryParameters().get("offset");

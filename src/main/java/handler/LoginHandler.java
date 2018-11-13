@@ -23,6 +23,7 @@ public class LoginHandler extends RequestHandler {
                 } else {
                     User user = Model.getInstance().addUser(username);
                     exchange.getResponseSender().send(gson.toJson(user.getUserObject()));
+                    Model.getInstance().addServerMessage(user.getName() + " joined the chat");
                 }
             }
         });

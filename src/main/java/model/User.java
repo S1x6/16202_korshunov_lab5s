@@ -8,7 +8,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 
-    private static final int LIVE_TIMEOUT = 5 * 1000;
+    private static final int ONLINE_TIMEOUT = 5 * 1000;
+    private static final int KICK_TIMEOUT = 15 * 1000;
 
     private int id;
 
@@ -51,7 +52,7 @@ public class User {
     }
 
     public boolean isOnline() {
-        return System.currentTimeMillis() - lastTimeActive < LIVE_TIMEOUT;
+        return System.currentTimeMillis() - lastTimeActive < ONLINE_TIMEOUT;
     }
 
     @Override
@@ -71,5 +72,9 @@ public class User {
 
     public UserObject getUserObject() {
         return new UserObject(this.name, this.id, isOnline(), this.token);
+    }
+
+    public boolean shouldBeKicked() {
+        return System.currentTimeMillis() - lastTimeActive >= KICK_TIMEOUT;
     }
 }

@@ -20,7 +20,7 @@ public class AddMessageHandler extends RequestHandler {
             if (oUser.isPresent()) {
                 oUser.get().updateTimeActive();
                 NewMessageObject messageObject = gson.fromJson(new String(data), NewMessageObject.class);
-                Message msg = Model.getInstance().addMessage(messageObject.getMessage(), oUser.get().getId());
+                Message msg = Model.getInstance().addMessage(messageObject.getMessage(), oUser.get().getId(), oUser.get().getName());
                 exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/json");
                 exchange.getResponseSender().send(gson.toJson(new MessageObject(
                         msg.getId(),

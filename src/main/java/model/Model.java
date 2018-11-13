@@ -43,8 +43,16 @@ public class Model {
         users.remove(user);
     }
 
-    public Message addMessage(String text, int authorId) {
-        Message message = new Message(text, authorId);
+    public Message addMessage(String text, int authorId, String authorName) {
+        Message message = new Message(text, authorId, authorName);
+        message.setId(messageId);
+        messageId++;
+        messages.add(message);
+        return message;
+    }
+
+    public Message addServerMessage(String text) {
+        Message message = new Message(text, 0, "Server");
         message.setId(messageId);
         messageId++;
         messages.add(message);
@@ -52,6 +60,9 @@ public class Model {
     }
 
     public List<Message> getMessages(int offset, int count) {
+        if (offset >= messages.size()) {
+            return new ArrayList<>();
+        }
         return messages.subList(offset, offset+count < messages.size() ? offset+count : messages.size());
     }
 }

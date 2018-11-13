@@ -20,6 +20,7 @@ public class LogoutHandler extends RequestHandler {
                 Model.getInstance().removeUser(oUser.get());
                 exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/json");
                 exchange.getResponseSender().send(gson.toJson(new ByeObject("bye!")));
+                Model.getInstance().addServerMessage(oUser.get().getName() + " left the chat");
                 return;
             }
 
