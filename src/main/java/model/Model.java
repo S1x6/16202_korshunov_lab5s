@@ -8,6 +8,7 @@ public class Model {
     private static int userId = 1;
     private static int messageId = 1;
     private static volatile Model instance;
+    private static OnServerMessageAddedListener sMessageListener = null;
     private List<User> users;
     private List<Message> messages;
 
@@ -25,6 +26,10 @@ public class Model {
             }
         }
         return instance;
+    }
+
+    public static void setsMessageListener(OnServerMessageAddedListener sMessageListener) {
+        Model.sMessageListener = sMessageListener;
     }
 
     public List<User> getUsers() {
@@ -56,6 +61,9 @@ public class Model {
         message.setId(messageId);
         messageId++;
         messages.add(message);
+        if (sMessageListener != null) {
+            sMessageListener.onAdd(message);
+        }
         return message;
     }
 
@@ -64,5 +72,9 @@ public class Model {
             return new ArrayList<>();
         }
         return messages.subList(offset, offset+count < messages.size() ? offset+count : messages.size());
+    }
+
+    public interface OnServerMessageAddedListener {
+        void onAdd(Message msg);
     }
 }

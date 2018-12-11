@@ -18,7 +18,7 @@ jar {
                 'Main-Class': 'server.Main'
         )
     }
-    baseName = 'lab4'
+    baseName = 'lab5'
     version =  '0.1'
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -26,6 +26,7 @@ jar {
 }
 
 dependencies {
+    
     compile group: 'io.undertow', name: 'undertow-core', version: '2.0.6.Final'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     testCompile group: 'junit', name: 'junit', version: '4.12'
